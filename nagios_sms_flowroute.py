@@ -41,7 +41,7 @@ def send_message(to_number, from_number, message):
 
 debug, args = parse_cmdline_args()
 try:
-    response = send_message(to_number=args[0], from_number=args[1], message=args[2])
+    response = send_message(from_number=args[0], to_number=args[1], message=args[2])
     if debug:
         pprint.pprint(response)
 except APIException as e:
