@@ -1,0 +1,1 @@
+-e git://github.com/flowroute/flowroute-messaging-python.git#egg=FlowrouteSDK
