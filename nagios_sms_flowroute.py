@@ -12,7 +12,7 @@ Copyright Mason Malone 2016
 from FlowrouteMessagingLib.APIException import APIException
 from FlowrouteMessagingLib.Controllers.APIController import APIController
 from FlowrouteMessagingLib.Models.Message import Message
-import argparse
+import optparse
 import sys
 import pprint
 
@@ -22,27 +22,29 @@ ACCESS_KEY = '1111111'
 SECRET_KEY = 'longbase64stringhere'
 
 def parse_cmdline_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--debug', action='store_true',
-                        help="Print debugging info to STDOUT")
-    parser.add_argument('message', help="Message to send")
-    parser.add_argument('--from_number', required=True,
-                        help="Sender phone number (must be a DID number)")
-    parser.add_argument('--to_number', required=True,
-                        help="Recipient phone number")
-    return parser.parse_args()
+    usage = "usage: %prog [--debug] FROM_NUMBER TO_NUMBER MESSAGE"
+    description = "Send SMS message given by MESSAGE to TO_NUMBER, with " +\
+        "FROM_NUMBER as the sender. Example:\n" +\
+        "%prog 11234567891 11234567890 \"foobar\""
+    parser = optparse.OptionParser(usage=usage, description=description)
+    parser.add_option('--debug', action='store_true',
+                      help="Print debugging info to STDOUT")
+    (options, args) = parser.parse_args()
+    if len(args) != 3:
+        parser.error("incorrect number of arguments")
+    return options.debug, args
 
 def send_message(to_number, from_number, message):
     message = Message(to=to_number, from_=from_number, content=message)
     controller = APIController(username=ACCESS_KEY, password=SECRET_KEY)
     return controller.create_message(message)
 
-args = parse_cmdline_args()
+debug, args = parse_cmdline_args()
 try:
-    response = send_message(args.to_number, args.from_number, args.message)
-    if args.debug:
+    response = send_message(to_number=args[0], from_number=args[1], message=args[2])
+    if debug:
         pprint.pprint(response)
 except APIException as e:
-    if args.debug:
+    if debug:
         pprint.pprint(e.response_body['errors'])
-    sys.exit("Error - " + str(e.response_code) + '\n')
+    sys.exit("Error - " + str(e.response_code))

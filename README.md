@@ -1,11 +1,16 @@
 Nagios-SMS-Flowroute
 ================
 
-Script for Nagios to send SMS alerts using Flowroute (http://www.flowroute.com)
+Nagios plugin to send SMS alerts using Flowroute (http://www.flowroute.com)
 
 Project location: https://github.com/MasonM/nagios-sms-flowroute
 
-#### SETUP
+## Requirements
+
+* Python 2.x
+* Pip
+
+## Setup
 
 1. Signup for an account at https://manage.flowroute.com/signup/
 2. If you do not already have one, get a DID number from https://manage.flowroute.com/accounts/dids/
@@ -16,10 +21,9 @@ Project location: https://github.com/MasonM/nagios-sms-flowroute
         define command { 
            command_name notify-by-sms 
            command_line nagios_sms_flowroute.py --from_number="$CONTACTFROMNUMBER$" --to_number="$CONTACTTONUMBER$" --message="$NOTIFICATIONTYPE$ $SERVICESTATE$ $SERVICEDESC$ Host($HOSTNAME$) Info($SERVICEOUTPUT$) Date($SHORTDATETIME$)"
-    } 
+        } 
 
 6. Update or add a contact to use the command. The "fromnumber" and "tonumber" fields must be in E.164 format.
-   Field "pager" should contain a mobile number for sms alerts in full international format e.g. 48xxxxxxxxx
 
         define contact {
            contact_name                    on-call-admin
