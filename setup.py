@@ -13,11 +13,11 @@ setup(name='nagios-flowroute-sms',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
-        'Intended Audience :: System Administors',
+        'Intended Audience :: System Administrators',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Topic :: Internet :: WWW/HTTP :: Site Management',
+        'Topic :: System :: Monitoring',
     ],
 )
 
